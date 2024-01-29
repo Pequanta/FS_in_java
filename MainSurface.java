@@ -16,12 +16,16 @@ public class MainSurface{
 	static JButton[] quicklyAccessable;
 	static MainFilesystem fileSystemInstance;//this instance extends the functionality of The filesystem class to the the surfaces interface;
 	static JPanel mainWindowPanel, quickAccessPanel, optionMenuPanel;
+	static JScrollPane mainWindowPane, quickAccessPane, optionMenuPane;
 	static JButton nextButton, previousButton;
 	Desktop desktop;
 	final static FileTraversingClass fileTraversal = new FileTraversingClass();
 	//this constants help with the configuration of the desplay.... the size of the main window and its sub-windows
-	final int MAIN_FRAME_HEIGHT = 800 , MAIN_FRAME_WIDTH = 1800, OPTION_MENU_W = 1248;
-	final int OPTION_MENU_H = 50, QUICK_ACCESS_WINDOW_H = 900, QUICK_ACCESS_WINDOW_W = 200, MAIN_WINDOW_W = 1600, MAIN_WINDOW_H = 950;
+	Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+	final int MAIN_FRAME_HEIGHT = (int) size.getHeight() - 50 , MAIN_FRAME_WIDTH = (int) size.getWidth() - 200;
+	final int OPTION_MENU_W = (int) size.getWidth(), OPTION_MENU_H = 50;
+	final int QUICK_ACCESS_WINDOW_H = (int) size.getHeight() - 50, QUICK_ACCESS_WINDOW_W = 200;
+	final int MAIN_WINDOW_W = (int) size.getWidth(), MAIN_WINDOW_H = (int)size.getHeight();
 	Icon iconFolder = new ImageIcon("folder.png");
 	Icon iconFile = new ImageIcon("file.png");
 	int CURRENT_ITEMS_SIZE;
@@ -54,19 +58,19 @@ public class MainSurface{
 			}
 			else{
 				try{
-					if(this.fileRecieved.isDirectory()){
+					if(this.fileRecieved.isDirectory()){ 
 						fileTraversal.nextDir(this.fileRecieved);
 						fileSystemInstance.currentFile = fileTraversal.currentDirectoryForward.fileCont;
 						fileSystemInstance.nearFolder = fileSystemInstance.currentFile;
 						fileSystemInstance.currentFilePath = fileSystemInstance.currentFile.getAbsolutePath();
 						fileSystemInstance.currentFolderItems = fileSystemInstance.nearFolder.listFiles();
 						mainWindowPanel.removeAll();
-						optionMenuPanel.removeAll();//this operation should be reconstructed only to modify the directory;
+						//optionMenuPanel.removeAll();//this operation should be reconstructed only to modify the directory;
 						mainWindowPanelH();
-						optionMenuPanelH();
+						//optionMenuPanel.add()
 						mainWindowPanel.revalidate();
-						optionMenuPanel.revalidate();
-						optionMenuPanel.repaint();
+						//optionMenuPanel.revalidate();
+						//optionMenuPanel.repaint();
 						mainWindowPanel.repaint();
 					}	
 					else if(this.fileRecieved.isFile()){
@@ -95,31 +99,39 @@ public class MainSurface{
 		mainFrame = new JFrame("QuantaFS");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(MAIN_FRAME_WIDTH, MAIN_FRAME_HEIGHT);
-		mainFrame.setResizable(false);
 		mainWindowPanel = new JPanel();
 		quickAccessPanel = new JPanel();
 		optionMenuPanel = new JPanel();
 		//***********************************//
 		mainWindowPanel.setLayout(null);
-		mainWindowPanel.setLocation(200, 50);
-		mainWindowPanel.setSize(MAIN_WINDOW_W, MAIN_WINDOW_H);
 		mainWindowPanel.setBackground(Color.GRAY);
-		mainWindowPanel.setLayout(new GridLayout(20, 3));
+		mainWindowPanel.setLayout(new GridLayout(10, 3));
 		//***********************************//
-		quickAccessPanel.setLocation(0, 50);
-		quickAccessPanel.setSize(QUICK_ACCESS_WINDOW_W, QUICK_ACCESS_WINDOW_H);
+		
 		quickAccessPanel.setBackground(Color.DARK_GRAY);
 		//************************************//
-		optionMenuPanel.setLocation(0,0);
-		optionMenuPanel.setSize(OPTION_MENU_W, OPTION_MENU_H);
 		optionMenuPanel.setBorder(BorderFactory.createRaisedBevelBorder());	
 		//************************************//
 		mainWindowPanelH();
 		quickAccessPanelH();
 		optionMenuPanelH();
-		mainFrame.add(mainWindowPanel);
-		mainFrame.add(quickAccessPanel);
-		mainFrame.add(optionMenuPanel);
+		mainWindowPane = new JScrollPane(mainWindowPanel);
+		quickAccessPane = new JScrollPane(quickAccessPanel);
+		optionMenuPane = new JScrollPane(optionMenuPanel);
+
+
+		mainWindowPane.setLocation(200, 50);
+		mainWindowPane.setSize(MAIN_WINDOW_W, MAIN_WINDOW_H);
+
+		quickAccessPane.setLocation(0, 50);
+		quickAccessPane.setSize(QUICK_ACCESS_WINDOW_W, QUICK_ACCESS_WINDOW_H);
+
+		optionMenuPane.setLocation(0,0);
+		optionMenuPane.setSize(OPTION_MENU_W, OPTION_MENU_H);
+
+		mainFrame.add(mainWindowPane);
+		mainFrame.add(quickAccessPane);
+		mainFrame.add(optionMenuPane);
 		mainFrame.setVisible(true);
 		//This program classify the main window into 3 distinict frames
 		//The first window used to handle the file accessing request ----> mainWindow --- could be accessed using the variable name mainWindowPanel
