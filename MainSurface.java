@@ -26,8 +26,8 @@ public class MainSurface{
 	final int OPTION_MENU_W = (int) size.getWidth(), OPTION_MENU_H = 50;
 	final int QUICK_ACCESS_WINDOW_H = (int) size.getHeight() - 50, QUICK_ACCESS_WINDOW_W = 200;
 	final int MAIN_WINDOW_W = (int) size.getWidth(), MAIN_WINDOW_H = (int)size.getHeight();
-	Icon iconFolder = new ImageIcon("folder.png");
-	Icon iconFile = new ImageIcon("file.png");
+	Icon iconFolder = new ImageIcon("imgs/folder.png");
+	Icon iconFile = new ImageIcon("imgs/file.png");
 	int CURRENT_ITEMS_SIZE;
 	class FileOpener implements ActionListener{
 		private File fileRecieved;
@@ -140,7 +140,6 @@ public class MainSurface{
 		int place = 0, i = 0;
 
 		CURRENT_ITEMS_SIZE = fileSystemInstance.currentFolderItems.length;
-		System.out.println(CURRENT_ITEMS_SIZE);
 
 		while(place < CURRENT_ITEMS_SIZE){
 			if(fileSystemInstance.currentFolderItems[i].isDirectory()){
