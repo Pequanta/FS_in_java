@@ -10,13 +10,12 @@ class Node{
 public class FileTraversingClass{
 	Node currentDirectoryForward;
 	Node currentDirectoryBackward;
-
-	public FileTraversingClass(){
-		/*this method accepts a selected File path from the caller and checks if it is traversable;
-		 *if it is,it lets the user to go forward with the selected directory else it returns false
+	
+		/*
 		 *the implementation uses the Stack Data structure to store.There are two stacks here. The 
 		 *first stack keeps track of the forward traverse while the second one helps to record movement to the previous 
 		*/
+	public FileTraversingClass(){
 		this.currentDirectoryForward = null;
 		this.currentDirectoryBackward = null;
 	}
